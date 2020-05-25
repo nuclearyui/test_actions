@@ -1,24 +1,29 @@
-edit : main.o kbd.o command.o display.o \
-        insert.o search.o files.o utils.o
-        cc -o edit main.o kbd.o command.o display.o \
-        insert.o search.o files.o utils.o
+TARGET =  app
 
-main.o : main.c defs.h
-    cc -c main.c
-kbd.o : kbd.c defs.h command.h
-    cc -c kbd.c
-command.o : command.c defs.h command.h
-    cc -c command.c
-display.o : display.c defs.h buffer.h
-    cc -c display.c
-insert.o : insert.c defs.h buffer.h
-    cc -c insert.c
-search.o : search.c defs.h buffer.h
-    cc -c search.c
-files.o : files.c defs.h buffer.h command.h
-    cc -c files.c
-utils.o : utils.c defs.h
-    cc -c utils.c
-clean :
-    rm edit main.o kbd.o command.o display.o \
-        insert.o search.o files.o utils.o
+SRCS = $(shell find .src    -type f -name .cpp)
+HEADS =$(shell find .include -type f -name .h)
+OBJS = $(SRCS.cpp=.o)
+DEPS = Makefile.depend
+
+INCLUDES = -I.include
+CXXFLAGS = -02 -Wall $(INCLUDES)
+LDFLAGS = -lm
+
+
+all:$(TARGET)
+
+$(TARGET):$(OBJS) $(HEADS)
+        $(CXX) $(LDFLAGS) -o $@ $(OBJS)
+  
+run:all
+        @.$(TARGET)
+  
+ .PHONY：depend clean
+ depend:
+        $(CXX) $(INCLUDES) -MM $(SRCS)  $(DEPS)
+        @sed -i -E s^（.+).o ([^ ]+)121.o 21g $(DEPS)
+   
+clean:
+        $(RM) $(OBJS） $(TARGET)
+     
+-include $(DEPS）
