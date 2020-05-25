@@ -1,10 +1,25 @@
-cc = gcc
-prom = calc
-deps = calc.h
-obj = main.o getch.o getop.o stack.o
- 
-$(prom): $(obj)
-    $(cc) -o $(prom) $(obj)
- 
-%.o: %.c $(deps)
-    $(cc) -c $< -o $@
+CC=gcc
+
+INCLUDEDIR= -I. -I ./include
+
+TARGET=main
+
+EXTFLAGS=
+
+LIBDIR=
+
+CFLAGS= -lpthread
+
+CSRC = $(wildcard *.c */*.c)
+
+COBJ = $(patsubst %c,%o,$(CSRC))
+
+$(TARGET):$(COBJ)
+
+ $(CC) $(COBJ) $(INCLUDEDIR) $(LIBDIR) $(CFLAGS) -o $(TARGET)
+
+$(COBJ) : %o : %c
+ $(CC)  $(INCLUDEDIR) $(EXTFLAGS)  -c $< -o $@
+.PHONY : clean
+clean :
+ rm -rf $(TARGET)  $(COBJ)
