@@ -1,18 +1,29 @@
-objects = main.o kbd.o command.o display.o \
-    insert.o search.o files.o utils.o
+TARGET =  app
 
-edit : $(objects)
-    cc -o edit $(objects)
+SRCS = $(shell find .src    -type f -name .cpp)
+HEADS =$(shell find .include -type f -name .h)
+OBJS = $(SRCS.cpp=.o)
+DEPS = Makefile.depend
 
-main.o : defs.h
-kbd.o : defs.h command.h
-command.o : defs.h command.h
-display.o : defs.h buffer.h
-insert.o : defs.h buffer.h
-search.o : defs.h buffer.h
-files.o : defs.h buffer.h command.h
-utils.o : defs.h
+INCLUDES = -I.include
+CXXFLAGS = -02 -Wall $(INCLUDES)
+LDFLAGS = -lm
 
-.PHONY : clean
-clean :
-    rm edit $(objects)
+
+all$(TARGET)
+
+$(TARGET) $(OBJS) $(HEADS)
+    $(CXX) $(LDFLAGS) -o $@ $(OBJS)
+  
+runall
+  @.$(TARGET)
+  
+ .PHONY： depend clean
+ depend
+   $(CXX) $(INCLUDES) -MM $(SRCS)  $(DEPS)
+   @sed -i -E s^（.+).o ([^ ]+)121.o 21g $(DEPS)
+   
+   clean
+     $(RM) $(OBJS） $(TARGET)
+     
+   -include $(DEPS）
