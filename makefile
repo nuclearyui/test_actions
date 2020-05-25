@@ -10,20 +10,20 @@ CXXFLAGS = -02 -Wall $(INCLUDES)
 LDFLAGS = -lm
 
 
-    all$(TARGET)
+all:$(TARGET)
 
 $(TARGET) $(OBJS) $(HEADS)
     $(CXX) $(LDFLAGS) -o $@ $(OBJS)
   
 runall
-  @.$(TARGET)
+    @.$(TARGET)
   
  .PHONY： depend clean
  depend
-   $(CXX) $(INCLUDES) -MM $(SRCS)  $(DEPS)
-   @sed -i -E s^（.+).o ([^ ]+)121.o 21g $(DEPS)
+    $(CXX) $(INCLUDES) -MM $(SRCS)  $(DEPS)
+    @sed -i -E s^（.+).o ([^ ]+)121.o 21g $(DEPS)
    
-   clean
-     $(RM) $(OBJS） $(TARGET)
+clean:
+    $(RM) $(OBJS） $(TARGET)
      
-   -include $(DEPS）
+ -include $(DEPS）
