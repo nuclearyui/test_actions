@@ -2,7 +2,7 @@ objects = main.o kbd.o command.o display.o \
     insert.o search.o files.o utils.o
 
 edit : $(objects)
-    cc -o edit $(objects)
+   cc -o edit $(objects)
 
 main.o : defs.h
 kbd.o : defs.h command.h
