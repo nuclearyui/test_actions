@@ -1,25 +1,29 @@
-CC=gcc
+TARGET = app
 
-INCLUDEDIR= -I. -I ./include
+SRCS  = $(shell find ./src     -type f -name *.cpp)
+HEADS = $(shell find ./include -type f -name *.h)
+OBJS = $(SRCS:.cpp=.o)
+DEPS = Makefile.depend
 
-TARGET=main
+INCLUDES = -I./include
+CXXFLAGS = -O2 -Wall $(INCLUDES)
+LDFLAGS = -lm
 
-EXTFLAGS=
 
-LIBDIR=
+all: $(TARGET)
 
-CFLAGS= -lpthread
+$(TARGET): $(OBJS) $(HEADS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS)
 
-CSRC = $(wildcard *.c */*.c)
+run: all
+	@./$(TARGET)
 
-COBJ = $(patsubst %c,%o,$(CSRC))
+.PHONY: depend clean
+depend:
+	$(CXX) $(INCLUDES) -MM $(SRCS) > $(DEPS)
+	@sed -i -E "s/^(.+?).o: ([^ ]+?)\1/\2\1.o: \2\1/g" $(DEPS)
 
-$(TARGET):$(COBJ)
+clean:
+	$(RM) $(OBJS) $(TARGET)
 
- $(CC) $(COBJ) $(INCLUDEDIR) $(LIBDIR) $(CFLAGS) -o $(TARGET)
-
-$(COBJ) : %o : %c
- $(CC)  $(INCLUDEDIR) $(EXTFLAGS)  -c $< -o $@
-.PHONY : clean
-clean :
- rm -rf $(TARGET)  $(COBJ)
+-include $(DEPS)
