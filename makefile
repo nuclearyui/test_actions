@@ -10,7 +10,7 @@ CXXFLAGS = -02 -Wall $(INCLUDES)
 LDFLAGS = -lm
 
 
-all$(TARGET)
+    all$(TARGET)
 
 $(TARGET) $(OBJS) $(HEADS)
     $(CXX) $(LDFLAGS) -o $@ $(OBJS)
