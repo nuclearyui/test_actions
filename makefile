@@ -12,14 +12,14 @@ LDFLAGS = -lm
 
 all:$(TARGET)
 
-$(TARGET) $(OBJS) $(HEADS)
+$(TARGET):$(OBJS) $(HEADS)
     $(CXX) $(LDFLAGS) -o $@ $(OBJS)
   
-runall
+run:all
     @.$(TARGET)
   
- .PHONY： depend clean
- depend
+ .PHONY：depend clean
+ depend:
     $(CXX) $(INCLUDES) -MM $(SRCS)  $(DEPS)
     @sed -i -E s^（.+).o ([^ ]+)121.o 21g $(DEPS)
    
