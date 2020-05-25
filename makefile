@@ -1,14 +1,10 @@
 cc = gcc
 prom = calc
-deps = $(shell find ./ -name "*.h")
-src = $(shell find ./ -name "*.c")
-obj = $(src:%.c=%.o) 
+deps = calc.h
+obj = main.o getch.o getop.o stack.o
  
 $(prom): $(obj)
- $(cc) -o $(prom) $(obj)
+    $(cc) -o $(prom) $(obj)
  
 %.o: %.c $(deps)
- $(cc) -c $< -o $@
- 
-clean:
- rm -rf $(obj) $(prom)
+    $(cc) -c $< -o $@
